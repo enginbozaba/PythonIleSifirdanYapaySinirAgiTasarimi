@@ -16,7 +16,7 @@ class ANN:
         # y =x.w +b = (1,N) * (N,M) +(1,M)
         weights={}
         
-        N=self.y_test[0].size#Getting the size of the input
+        N=self.y_test[0].size #Getting the size of the input
         
         for i in range(node_num_list.size):
 
@@ -35,11 +35,11 @@ class ANN:
         
         if name =='Threshold' and derivative==False:
             
-            output = int(x>=0) # Threshold(x)
+            output = (x>=0).astype(np.int) # Threshold(x)
          
         elif name =='Threshold' and derivative==True:
             
-            output = 0 # Threshold'(x)
+            output = np.full((x.shape),0) # Threshold'(x)
             
         elif name =='Sigmoid' and derivative==False:
             
@@ -63,8 +63,8 @@ class ANN:
         
         elif name =='ReLU' and derivative==True:
             
-            output = int(x >= 0 ) # ReLU'(x) = { 0  if x < 0,
-                                  #             1  if x >= 0  }
+            output = (x >= 0 ).astype(np.int) # ReLU'(x) = { 0  if x < 0,
+                                              #             1  if x >= 0  }
                 
         elif name =='leakyRELU' and derivative==False:
             
@@ -72,11 +72,11 @@ class ANN:
             
         elif name =='leakyRELU'  and derivative==True:
             
-            output = 0.01+(int(x >= 0 )*0.99) # leaky_ReLU'(x) = {  0.01   if x < 0,
-                                              #                     1      if x >= 0  }
+            output = 0.01+((x >= 0 ).astype(np.int)*0.99) # leaky_ReLU'(x) = {  0.01   if x < 0,
+                                                          #                     1      if x >= 0  }
         elif name =='Swish' and derivative ==False:
             
-            output = np.dot(x, 1 / (1 + np.exp(-x))) # Swish(x)
+            output = x * 1 / (1 + np.exp(-x)) # Swish(x)
         
         elif name =='Swish' and derivative ==True:
             
@@ -84,11 +84,21 @@ class ANN:
         
         elif name =='Softmax' and derivative ==False:
             
-            output ='Yapılmadı Araştır'  # Swish(x)
+            output = np.exp(x)/np.sum(np.exp(x))  # Swish(x)
         
-        elif name =='Softmax' and derivative ==True:
+        elif name =='Softmax' and derivative ==True: 
             
-            output ='Yapılmadı Araştır'  # Swish'(x)
+            #https://medium.com/@enginbozaba/softmax-fonksi%CC%87yonun-t%C3%BCrevi%CC%87-ve-matri%CC%87s-%C3%A7%C3%B6z%C3%BCm%C3%BC-b0197d1d019e            
+            
+            x_full=np.full((x.size,x.size),x).T
+            e_x_full = np.exp(x_full)
+            np.fill_diagonal(e_x_full, 0)
+
+            numerator=np.matrix.dot(e_x_full , np.exp(x.T) )
+            denominator = np.power(np.sum(np.exp(x.T)),2)
+            output = numerator /denominator
+
+
                 
         return output
     
@@ -111,4 +121,4 @@ class ANN:
             a = self.activation_function(z,name =activation_function_list[i])
             
         
-        return a
+        return a    

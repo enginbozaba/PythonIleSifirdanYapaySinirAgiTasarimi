@@ -121,4 +121,30 @@ class ANN:
             a = self.activation_function(z,name =activation_function_list[i])
             
         
-        return a    
+        return a
+    
+    def cost_function(self,y_test,y_pred,name='mean_squared_error',derivative=False):
+        
+        if name == 'mean_squared_error' and derivative==False:
+
+            output = np.mean(0.5*np.power((y_test - y_pred),2),axis=0) # Boyut : 1 x En_Son_Katmandaki_Nöron
+                #http://www.derinogrenme.com/2018/06/28/geri-yayilim-algoritmasina-matematiksel-yaklasim/
+
+        elif name == 'mean_squared_error' and derivative==True:
+            
+            output = np.mean(-(y_test - y_pred),axis=0) # Boyut : 1 x En_Son_Katmandaki_Nöron
+            
+        elif name == 'binary_cross_entropy' and derivative==False:
+            
+            output = - np.mean(y_test*np.log(y_pred) + (1-y_test)*np.log(1-y_pred)) # -(1/n) ((y_test*log(y_pred) + (1 - y_test)*log(1 - y_pred)))
+        
+        elif name == 'binary_cross_entropy' and derivative==False:
+            
+#             output =0 #https://medium.com/@14prakash/back-propagation-is-very-simple-who-made-it-complicated-97b794c97e5c
+            
+        # ilerleyen zamanlarda burayı zenginleştir.
+        
+        return output
+        
+    
+    

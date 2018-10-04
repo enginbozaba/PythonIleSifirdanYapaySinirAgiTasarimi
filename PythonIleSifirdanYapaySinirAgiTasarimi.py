@@ -140,7 +140,7 @@ class ANN:
         
         elif name == 'binary_cross_entropy' and derivative==False:
             
-              output = - 1* ((y_test/y_pred)+(1-y_test/1-y_pred))
+             output = - 1* ((y_test/y_pred)+(1-y_test/1-y_pred))
                 #https://medium.com/@14prakash/back-propagation-is-very-simple-who-made-it-complicated-97b794c97e5c
                 #Notation : https://ml-cheatsheet.readthedocs.io/en/latest/loss_functions.html
                 #Derivative :https://math.stackexchange.com/questions/2503428/derivative-of-binary-cross-entropy-why-are-my-signs-not-right

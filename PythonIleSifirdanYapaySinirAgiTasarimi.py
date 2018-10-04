@@ -136,15 +136,15 @@ class ANN:
             
         elif name == 'binary_cross_entropy' and derivative==False:
             
-            output = - np.mean(y_test*np.log(y_pred) + (1-y_test)*np.log(1-y_pred)) # -(1/n) ((y_test*log(y_pred) + (1 - y_test)*log(1 - y_pred)))
+            output = -1* np.mean(y_test*np.log(y_pred) + (1-y_test)*np.log(1-y_pred)) # -(1/n) ((y_test*log(y_pred) + (1 - y_test)*log(1 - y_pred)))
         
         elif name == 'binary_cross_entropy' and derivative==False:
             
-#             output =0 #https://medium.com/@14prakash/back-propagation-is-very-simple-who-made-it-complicated-97b794c97e5c
+              output = - 1* ((y_test/y_pred)+(1-y_test/1-y_pred))
+                #https://medium.com/@14prakash/back-propagation-is-very-simple-who-made-it-complicated-97b794c97e5c
+                #Notation : https://ml-cheatsheet.readthedocs.io/en/latest/loss_functions.html
+                #Derivative :https://math.stackexchange.com/questions/2503428/derivative-of-binary-cross-entropy-why-are-my-signs-not-right
             
         # ilerleyen zamanlarda burayı zenginleştir.
         
         return output
-        
-    
-    
